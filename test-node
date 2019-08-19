@@ -1,0 +1,96 @@
+import quantaskylake
+import minios
+import time
+
+node = quantaskylake.D52B('10.76.38.90', 'admin', 'cmb9.admin')
+test = minios.minios(node)
+#test = minios(node) # if this is used, there is an error that module is not callable
+test.login()
+test.discoverPCIDevices()
+test.printPCIDevices()
+
+print("=================Starting to Upgrade==========================")
+melltext = minios.mellanoxNIC(test, '3b:00')
+melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
+
+'''
+raidtest = AVAGORAIDController(test, '5e:00')
+raidtest.flash("/cdrom/firmware/AVAGO_MegaRAID_SAS_PCI_Express_ROMB-QS-3516B/QS-3516B-16i-R6-PD32-2G_FW-Online_5.040.00-1123.zip")
+
+
+sastest = LSISAS3Controller(test, '5e:00')
+sastest.flash("/cdrom/firmware/Quanta-QS3216/Qfw_1A14.zip")
+
+node = quantaskylake.D52B('fe80::aa1e:84ff:fe73:ba49%13', 'admin', 'cmb9.admin')
+
+test = minios(node)
+
+test.login()
+
+test.discoverPCIDevices()
+test.printPCIDevices()
+# test.dancePCIDevices()
+
+# pcitest = intelNIC(test, '3d:00')
+# pcitest.flash("/cdrom/firmware/Intel(R)_Ethrnet_Connection_X722_for_10GbE_SFP+/ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip")
+
+
+
+node = quantaskylake.D52B('fe80::aa1e:84ff:fe73:ba49%13', 'admin', 'cmb9.admin')
+
+'''
+# node.deleteVMCLIapp()
+test.discoverPCIDevices()
+test.printPCIDevices()
+#node.setMiniOSDefaults()
+node.poweroff()
+time.sleep(60)
+# node.createVMCLIapp()
+# node.startVMCLIapp('minios2.iso')
+#node.poweron()
+'''
+test = minios(node)
+
+test.login()
+
+test.discoverPCIDevices()
+test.printPCIDevices()
+test.dancePCIDevices()
+
+pcitest = intelNIC(test, '1c:00')
+pcitest.flash("/cdrom/firmware/Intel(R)_Ethernet_Network_Adapter_XXV710-2/XL710_NVMUpdatePackage_v6_01_Linux.tar.gz")
+
+hbatest = emulexHBA(test, 'af:00')
+hbatest.flash('/cdrom/firmware/Emulex_LPe31002-M6/lancerg6_A11.4.204.25.grp')
+
+melltext = mellanoxNIC(test, '18:00')
+melltext.flash('/cdrom/firmware/Mellanox-CX4121A/fw-ConnectX4Lx-rel-14_20_1010-MCX4121A-ACA_Ax-FlexBoot-3.5.210.bin.zip')
+
+melltext = mellanoxNIC(test, '3b:00')
+melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
+
+pcitest = intelNIC(test, '3d:00')
+pcitest.flash("/cdrom/firmware/Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+/ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip")
+
+hbatest = emulexHBA(test, 'af:00')
+hbatest.getDetails()
+hbatest.blinkLED(hbatest.WWNs[0])
+# print(test)
+
+pcitest = intelNIC(test, '1c:00')
+pcitest.getDetails()
+while True:
+    print(pcitest.MACs[0] + ' On')
+    pcitest.blinkLED(pcitest.MACs[0])
+    time.sleep(5)
+    print(pcitest.MACs[0] + ' Off')
+    pcitest.blinkLED(pcitest.MACs[0], False)
+    time.sleep(5)
+    print(pcitest.MACs[1] + ' On')
+    pcitest.blinkLED(pcitest.MACs[1])
+    time.sleep(5)
+    print(pcitest.MACs[1] + ' Off')
+    pcitest.blinkLED(pcitest.MACs[1], False)
+    time.sleep(5)
+    print(pcitest.SVID)
+'''
