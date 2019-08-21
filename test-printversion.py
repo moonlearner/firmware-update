@@ -104,7 +104,7 @@ class firmware(object):
                     # "Intel(R)_Ethernet_Network_Adapter_XXV710-2": "2017-11-30",
                     # "LSI_SAS9305-16i": "2017-05-03",
                     # "LSI_QS3216": "2017-06-14",
-                    # "MCX4121A-ACA_Ax": "2018-07-12",
+                    "MCX4121A-ACA_Ax": "2018-07-12",
                     "Quanta_S5B_CX4Lx_25G_2P": "2018-02-03"
                 }
             }
@@ -128,13 +128,13 @@ class firmware(object):
         if inputdata is not None:
             for date, data in self.vmwaredictionary.items():
                 if str(inputdata) in date:
-                    print(date)
                     for item, itemdata in data.items():
+                        print("My item print:   ", item)
                         if 'Nodes' in item or 'IOCards' in item:
                             for node, nodedate in itemdata.items():
-                                #print(node)
-                                #print(nodedate)
                                 print(json.dumps(self.returnfirmwarefileJSON(node, nodedate), indent=4))
+                        print("\n")
+                    break
         else:
             for date, data in self.vmwaredictionary.items():
                 print(date + ' : vSphere ESXi ' + data.get('ESXI_Version') + ' (' + data.get('ESXI_Build') + ')')
@@ -149,16 +149,18 @@ class firmware(object):
         # Note: Nodes can only be used with date form. Can't force update incorrect BMC/BIOs combo
 
     def returnfirmwarefileJSON(self, name, inputdata):
-        print(name)
-        print(inputdata)
+        print("The name is the  ", name)
+        print("The inputdata is the ", inputdata)
+        print("----------------------------------------------")
         for device, data in self.firmwaredictionary.items():
-            #print("This data is the ", data)
-            #print("This inputdata is the  ", inputdata)
+            print("This device is the ", device)
+            print("This data is the  ", data)
             if name in device:
                 for datesel, json in data.items():
                     if inputdata in datesel or inputdata in json.get("Version", ""):
                         return json
-        raise ValueError("Can't find JSON profile")
+        #raise ValueError("Can't find JSON profile")
+        raise ValueError("Can't find JSON profile for device ==== ", device, datesel)
 
     def returnfilepath(self, name):
         for root, dirs, files in os.walk(self.path):

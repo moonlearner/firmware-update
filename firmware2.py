@@ -78,8 +78,16 @@ class firmware(object):
             ("Quanta_S5B_CX4Lx_25G_2P"): {
                 "2017-04-07": {"Version": "14.18.1000", "File": "3GS5BMA0000_MLX_25G_dual_port_14_18_1000_Online.zip"},
                 "2018-02-03": {"Version": "14.20.1010", "File": "3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip"}
-            }
-
+            },
+            ("LSI_QS3216"): {
+                "2017-06-14": {"Version": "15.00.00.00", "File": "Qfw_1A14.zip"},
+                "2017-08-18": {"Version": "15.00.02.00", "File": "Qfw_1A17.zip"},
+            },
+            ("Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+"): {
+                "2018-02-23": {"Version": "3.45",
+                               "File": "ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip"},
+                "2018-12-20": {"Version": "4.00", "File": "2018_WW46_LBG_X722_NUP_UEFI_v0006.zip"}
+            },
         }
 
         self.vmwaredictionary = {
@@ -100,10 +108,10 @@ class firmware(object):
                     #"AVAGO_MegaRAID_SAS_PCI_Express_ROMB-QS-3516B": "2018-01-11",
                     #"Emulex_LPe31002-M6": "2018-02-06",
                     #"Emulex_LPe32002-M2": "2018-02-06",
-                    #"Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+": "2018-02-23",
+                    "Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+": "2018-02-23",
                     #"Intel(R)_Ethernet_Network_Adapter_XXV710-2": "2017-11-30",
                     #"LSI_SAS9305-16i": "2017-05-03",
-                    #"LSI_QS3216": "2017-06-14",
+                    "LSI_QS3216": "2017-08-18",
                     #"MCX4121A-ACA_Ax": "2018-07-12",
                     "Quanta_S5B_CX4Lx_25G_2P": "2018-02-03"
                 }
@@ -371,7 +379,7 @@ def main():
     #    # Discover with default details
     #    nodes = autodiscover.discover(nodesnum)
 
-    nodes = [quantaskylake.DS120('10.76.38.90', 'admin', 'cmb9.admin')]
+    nodes = [quantaskylake.DS120('10.76.38.91', 'admin', 'cmb9.admin')]
     #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c%ens160', 'admin', 'cmb9.admin')]
     #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c', 'admin', 'cmb9.admin')]
 

@@ -2,18 +2,22 @@ import quantaskylake
 import minios
 import time
 
-node = quantaskylake.D52B('10.76.38.90', 'admin', 'cmb9.admin')
+node = quantaskylake.D52B('10.76.38.91', 'admin', 'cmb9.admin')
 test = minios.minios(node)
 #test = minios(node) # if this is used, there is an error that module is not callable
 test.login()
 test.discoverPCIDevices()
 test.printPCIDevices()
-
-print("=================Starting to Upgrade==========================")
-melltext = minios.mellanoxNIC(test, '3b:00')
-melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
-
 '''
+print("=================Starting to Upgrade==========================")
+#melltext = minios.mellanoxNIC(test, '3b:00')
+#melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
+
+pcitest = minios.intelNIC(test, '3d:00')
+pcitest.flash("/cdrom/firmware/Intel(R)_Ethrnet_Connection_X722_for_10GbE_SFP+/ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip")
+
+
+
 raidtest = AVAGORAIDController(test, '5e:00')
 raidtest.flash("/cdrom/firmware/AVAGO_MegaRAID_SAS_PCI_Express_ROMB-QS-3516B/QS-3516B-16i-R6-PD32-2G_FW-Online_5.040.00-1123.zip")
 
@@ -31,7 +35,7 @@ test.discoverPCIDevices()
 test.printPCIDevices()
 # test.dancePCIDevices()
 
-# pcitest = intelNIC(test, '3d:00')
+#pcitest = intelNIC(test, '3d:00')
 # pcitest.flash("/cdrom/firmware/Intel(R)_Ethrnet_Connection_X722_for_10GbE_SFP+/ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip")
 
 

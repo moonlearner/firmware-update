@@ -189,7 +189,9 @@ class minios(object):
             busdevlist = []
             for line in output:
                 try:
+                    print("line before split ",line)
                     busdevID = line.split()[0].split('.')[0]
+                    print("line after split ", busdevID)
                     busdevlist.append(busdevID)
                 except:
                     pass
@@ -262,7 +264,8 @@ class minios(object):
         t = PrettyTable(["PCI_Address", "Name", "Firmware", "Serial", "VID", "DVID", "SVID", "SSID"])
         t.sortby = "PCI_Address"
         for device, pciclass in self.PCIDevices.items():
-            # print(self.node.host + ' Discovered PCI Device: ' + device + ' ' + pciclass.name + ' v.' + pciclass.firmware)
+            #print(self.node.host + ' Discovered PCI Device: ' + device + ' ' + pciclass.name + ' v.' + pciclass.firmware)
+            print(pciclass)
             t.add_row([device, pciclass.name, pciclass.firmware, pciclass.serial, pciclass.VID, pciclass.DVID, pciclass.SVID, pciclass.SSID])
         print(t)
         return t
@@ -551,7 +554,9 @@ class intelNIC(NIC):
                 if 'Reboot is required to complete the update process.' in output and 'Error' not in output:
                     print(self.minios.node.host + ' Successfully Flashed ' + self.name)
                     return True
-        print(self.minios.node.host + ' Failed to Flash ' + self.name + ' Debugging output: ' + output)
+        #print(self.minios.node.host + ' Failed to Flash ' + self.name + ' Debugging output: ' + output)
+        print(self.minios.node.host + ' Failed to Flash ' + self.name + ' Debugging output: ')
+        print(output)
         return False
 
 
