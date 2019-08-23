@@ -1,0 +1,48 @@
+# To encode and decode operations
+import json
+
+vmwaredictionary = {
+            "2019-04-25_UCPv20190425": {
+                "ESXI_Version": "6.5U2/6.7U1",
+                "ESXI_Build": "10390116/10302608",
+                "Nodes": {
+                    "D52B": "2019-04-25",
+                    "DS120": "2019-04-25",
+                    "DS220": "2018-08-19",
+                    "D52BV": "2018-07-30",
+                    "DS225": "2018-07-30",
+                    "Q72D": "2018-08-20",
+                    "DS240": "2018-08-20"
+                },
+                "IOCards": {
+                    "AVAGO_MegaRAID_SAS_9460-16i": "2017-12-17",
+                    #"AVAGO_MegaRAID_SAS_PCI_Express_ROMB-QS-3516B": "2018-01-11",
+                    "Emulex_LPe31002-M6": "2018-02-06",
+                    #"Emulex_LPe32002-M2": "2018-02-06",
+                    "Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+": "2018-02-23",
+                    "Intel(R)_Ethernet_Network_Adapter_XXV710-2": "2019-03-18",
+                    "LSI_SAS9305-16i": "2017-05-03",
+                    "LSI_QS3216": "2017-08-18",
+                    #"MCX4121A-ACA_Ax": "2018-07-12",
+                    "Quanta_S5B_CX4Lx_25G_2P": "2018-02-03"
+                }
+            }
+        }
+
+x = json.dumps(vmwaredictionary)
+y = json.loads(x)
+#print(x)
+print(y)
+"""
+if 'data.txt':
+    vmwaredictionary = {}
+    # Jenny Add Reading JSON from a File
+    with open('data.txt', 'r') as json_file:
+        vmwaredictionary = json.load(json_file)
+        for p in vmwaredictionary.items():
+            print(p)
+            print('')
+"""
+# when performing from a file in disk
+with open("any_file.json", "w") as readit:
+    json.dump(vmwaredictionary, readit)
