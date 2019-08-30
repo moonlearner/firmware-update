@@ -118,6 +118,7 @@ class firmware(object):
             }
         }
 
+
         if 'linux' in sys.platform:
             self.path = '../../Firmware/COMPUTE/'
         else:

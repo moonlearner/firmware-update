@@ -3,6 +3,8 @@ import re
 from prettytable import PrettyTable
 import collections
 import json
+import glob
+import os
 
 def getminiosiso():
     return "minios_20190409.iso"
@@ -189,9 +191,7 @@ class minios(object):
             busdevlist = []
             for line in output:
                 try:
-                    print("line before split ",line)
                     busdevID = line.split()[0].split('.')[0]
-                    print("line after split ", busdevID)
                     busdevlist.append(busdevID)
                 except:
                     pass
@@ -264,11 +264,41 @@ class minios(object):
         t = PrettyTable(["PCI_Address", "Name", "Firmware", "Serial", "VID", "DVID", "SVID", "SSID"])
         t.sortby = "PCI_Address"
         for device, pciclass in self.PCIDevices.items():
-            #print(self.node.host + ' Discovered PCI Device: ' + device + ' ' + pciclass.name + ' v.' + pciclass.firmware)
-            print(pciclass)
+            print(self.node.host + ' Discovered PCI Device: ' + device + ' ' + pciclass.name + ' v.' + pciclass.firmware)
+            #print(pciclass)
             t.add_row([device, pciclass.name, pciclass.firmware, pciclass.serial, pciclass.VID, pciclass.DVID, pciclass.SVID, pciclass.SSID])
         print(t)
         return t
+
+    def printPCIDevices2(self):
+        print(self.node.host + " Discovered the following PCI Devices:")
+        t = PrettyTable(["PCI_Address", "Name", "Firmware", "Serial", "VID", "DVID", "SVID", "SSID"])
+        t.sortby = "PCI_Address"
+        for device, pciclass in self.PCIDevices.items():
+            print(
+                self.node.host + ' Discovered PCI Device: ' + device + ' ' + pciclass.name + ' v.' + pciclass.firmware)
+            # print(pciclass)
+            t.add_row(
+                [device, pciclass.name, pciclass.firmware, pciclass.serial, pciclass.VID, pciclass.DVID, pciclass.SVID,
+                 pciclass.SSID])
+        print(t)
+        return self.PCIDevices
+
+    def discoverNewestFile(self, filepath):
+        print(self.node.host + ' Discovering Newest Firmware File')
+        cmd = 'ls -tc ' + filepath + ' | tail -1'
+        output = self.apprun(cmd)
+        print(output)
+        return output
+        #output = output.splitlines()
+        #for Line in output:
+        #    print(Line)
+        #for root, dirs, files in os.walk(filepath):
+        #    for filename in files:
+        #        print(filename)
+        #files = [x for x in glob.glob(filepath)]
+        #newest = max(output, key=os.path.getctime)
+        #print("\nThe newest version file ", newest)
 
     def dancePCIDevices(self):
         for device, pciclass in sorted(self.PCIDevices.items()):
