@@ -4,7 +4,7 @@ from prettytable import PrettyTable
 import os
 
 
-node = quantaskylake.D52B('10.76.38.73', 'admin', 'cmb9.admin')
+node = quantaskylake.D52B('10.76.38.62', 'admin', 'cmb9.admin')
 test = minios.minios(node)
 #tset = minios(node) # if this is used, there is an error that module is not callable
 test.login()
@@ -12,9 +12,13 @@ test.discoverPCIDevices()
 founddevices = test.printPCIDevices()
 '''
 #print("=================Starting to Upgrade==========================")
-#melltext = minios.mellanoxNIC(test, '3b:00')
-#melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
+#pcitest = minios.intelNIC(test, '3d:00')
+#pcitest.flash("/cdrom/firmware/Intel(R)_Ethrnet_Connection_X722_for_10GbE_SFP+/ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip")
+#pcitest.flash("/cdrom/firmware/Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+/2018_WW46_LBG_X722_NUP_UEFI_v0006.zip")
 
+#melltext = minios.mellanoxNIC(test, '3d:00')
+# melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
+#melltext.flash('/cdrom/firmware/Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+/2018_WW46_LBG_X722_NUP_UEFI_v0006.zip')
 
 founddevices = test.printPCIDevices2()
 
@@ -27,18 +31,19 @@ for device2, pciclass2 in founddevices.items():
     for ch in ['(', ')']:
         if ch in pciclass2.name:
             pciclass2.name = pciclass2.name.replace(ch, "\\"+ch)
+            #pciclass2.name = pciclass2.name.replace(ch, "" + ch)
     filepath = "/cdrom/firmware/" + pciclass2.name + "/"
 
     if (filepath.find("LSI_Quanta_Mezz")  != -1):
         filepath = filepath.replace("LSI_Quanta_Mezz", "LSI_QS3216")
 
-    updatefilename = test.discoverNewestFile(filepath)
-    print("=======updatefilename: ", updatefilename)
+    filename = test.discoverNewestFile(filepath)
+    print("=======filename: ", filename)
 
     # Add Codes for flash device:
     # Initialize the PCI Devices
     line = filepath
-    fullfilepath = filepath + updatefilename
+    fullfilepath = filepath + filename
     fullfilepath = fullfilepath.rstrip()    # strip out all tailing whitespace
     print("This line has the value = ", line)
     if 'Ethernet' in line or 'Quanta' in line:
@@ -46,7 +51,7 @@ for device2, pciclass2 in founddevices.items():
             print(node.host + ' ******Found a Mellanox Ethernet Card******', device2)
             print("The fullfilepath ===", fullfilepath)
             melltext = minios.mellanoxNIC(test, device2)
-            melltext.flash(fullfilepath)
+            #melltext.flash(fullfilepath)
             #melltext.flash('/cdrom/firmware/Quanta_S5B_CX4Lx_25G_2P/3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip')
 
         # For some reason, there is a dummy device within the Intel NICs that has DID 37cc. Ignoring it.
@@ -55,6 +60,7 @@ for device2, pciclass2 in founddevices.items():
             pcitest = minios.intelNIC(test, device2)
             #fullfilepath = line + 'ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip'
             print("This full file path is ", fullfilepath)
+            fullfilepath = fullfilepath.replace("\\", "")
             pcitest.flash(fullfilepath)
 
             #pcitest.flash("/cdrom/firmware/Intel(R)_Ethrnet_Connection_X722_for_10GbE_SFP+/ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip")

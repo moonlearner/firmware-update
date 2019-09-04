@@ -28,6 +28,8 @@ class minios(object):
         self.PCIDevices = {}
         self.lshwdict = {}
 
+        self.filename = ""
+
     def login(self):
         # Hit enter to find out if console is alive
         count = 0
@@ -127,6 +129,7 @@ class minios(object):
         self.node.SOLDeactivate()
         # Trim the output to only include output of app
         try:
+            #output = output.split(cmd + '\r\n')[1]
             output = output.split(cmd + '\r\n')[1]
         except:
             pass
@@ -284,21 +287,25 @@ class minios(object):
         print(t)
         return self.PCIDevices
 
+
     def discoverNewestFile(self, filepath):
-        print(self.node.host + ' Discovering Newest Firmware File')
+        print(self.node.host + ' Discovering Newest Firmware File ' + filepath)
+        # Get the latest file ina folder
         cmd = 'ls -tc ' + filepath + ' | tail -1'
         output = self.apprun(cmd)
-        print(output)
-        return output
+        #output = self.rawcommand(cmd)
+
+        if (filepath.find("LSI_QS3216") == -1):
+            output = output.split('\r\n')[1]
+
         #output = output.splitlines()
         #for Line in output:
-        #    print(Line)
+        #   print(Line)
         #for root, dirs, files in os.walk(filepath):
-        #    for filename in files:
-        #        print(filename)
-        #files = [x for x in glob.glob(filepath)]
-        #newest = max(output, key=os.path.getctime)
-        #print("\nThe newest version file ", newest)
+        #   for filename in files:
+        #       print(filename)
+        return output
+
 
     def dancePCIDevices(self):
         for device, pciclass in sorted(self.PCIDevices.items()):
