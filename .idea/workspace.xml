@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e724ca9a-f381-4141-bc6b-61e2e237eec5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/MiniOS.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/any_file.json" beforeDir="false" afterPath="$PROJECT_DIR$/any_file.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data.txt" beforeDir="false" afterPath="$PROJECT_DIR$/data.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/firmware3.py" beforeDir="false" afterPath="$PROJECT_DIR$/firmware3.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/minios.py" beforeDir="false" afterPath="$PROJECT_DIR$/minios.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test-jsonf2dict" beforeDir="false" afterPath="$PROJECT_DIR$/test-jsonf2dict" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test-node" beforeDir="false" afterPath="$PROJECT_DIR$/test-node" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -18,43 +18,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/test-node">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="266">
-              <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
-              <folding>
-                <element signature="e#0#20#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Utkarsh/ucpa-dm/cdmapp/venv/lib/python3.7/site-packages/prettytable.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="816" selection-start-line="816" selection-end-line="816" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/minios.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="290" column="8" selection-start-line="290" selection-start-column="8" selection-end-line="290" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/firmware3.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="380">
-              <caret line="94" column="94" selection-start-line="94" selection-start-column="93" selection-end-line="94" selection-end-column="94" />
+            <state relative-caret-position="-7185">
+              <caret line="143" column="86" lean-forward="true" selection-start-line="143" selection-start-column="86" selection-end-line="143" selection-end-column="86" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -63,51 +30,72 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/glob.py">
+        <entry file="file://$PROJECT_DIR$/minios.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="55">
+              <caret line="745" column="43" lean-forward="true" selection-start-line="745" selection-start-column="43" selection-end-line="745" selection-end-column="43" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Utkarsh/ucpa-dm/cdmapp/venv/lib/python3.7/site-packages/pexpect/spawnbase.py">
+        <entry file="file://$PROJECT_DIR$/data.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="166">
-              <caret line="436" selection-start-line="436" selection-end-line="436" />
+            <state>
+              <caret column="632" lean-forward="true" selection-start-column="632" selection-end-column="632" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/codecs.py">
+        <entry file="file://$PROJECT_DIR$/test-jsonf2dict">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="990" selection-start-line="990" selection-end-line="990" />
+            <state relative-caret-position="480">
+              <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/quantaskylake.py">
+        <entry file="file://$PROJECT_DIR$/any_file.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="807" selection-start-line="807" selection-end-line="807" />
+            <state>
+              <caret column="22" selection-end-column="741" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/Utkarsh/ucpa-dm/cdmapp/venv/lib/python3.7/site-packages/pexpect/popen_spawn.py">
+        <entry file="file://$PROJECT_DIR$/test-node">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="-1272">
+              <caret line="101" lean-forward="true" selection-start-line="101" selection-end-line="101" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>firmware_selection</find>
+      <find>firmwareselection</find>
+      <find>returnesxiselection</find>
+      <find>p</find>
+      <find>This selct</find>
+      <find>printPCIDevices2</find>
+      <find>PCIDevices</find>
+      <find>detailsDict</find>
+      <find>ntelNVMeDevice</find>
+      <find>storcl</find>
+      <find>printPCIDevices</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -115,16 +103,20 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/test-jsonf2dict" />
+        <option value="$PROJECT_DIR$/any_file.json" />
+        <option value="$PROJECT_DIR$/firmware3.py" />
+        <option value="$PROJECT_DIR$/data.txt" />
         <option value="$PROJECT_DIR$/minios.py" />
         <option value="$PROJECT_DIR$/test-node" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="118" />
-    <option name="y" value="1109" />
-    <option name="width" value="1680" />
-    <option name="height" value="960" />
+    <option name="x" value="166" />
+    <option name="y" value="1115" />
+    <option name="width" value="1536" />
+    <option name="height" value="922" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -165,7 +157,51 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.test-node">
+    <configuration name="firmware3" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MiniOS" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/firmware3.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test-jsonf2dict" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="MiniOS" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test-jsonf2dict" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="test-node" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="MiniOS" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -190,7 +226,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.firmware3" />
         <item itemvalue="Python.test-node" />
+        <item itemvalue="Python.test-jsonf2dict" />
       </list>
     </recent_temporary>
   </component>
@@ -205,24 +243,23 @@
       <option name="presentableId" value="Default" />
       <updated>1567205330852</updated>
       <workItem from="1567205332282" duration="4286000" />
-      <workItem from="1567209954220" duration="28723000" />
+      <workItem from="1567209954220" duration="61253000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33009000" />
+    <option name="totallyTimeSpent" value="65539000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="118" y="1109" width="1680" height="960" extended-state="0" />
-    <editor active="true" />
+    <frame x="166" y="1115" width="1536" height="922" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15262516" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7536232" visible="true" weight="0.17737617" />
+      <window_info id="Structure" order="1" sideWeight="0.24637681" side_tool="true" weight="0.1971917" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.47235024" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.42050692" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.63975906" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3640553" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -239,13 +276,13 @@
       <window_info anchor="right" id="Database" order="4" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2008547" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.7536232" visible="true" weight="0.17737617" />
+      <window_info id="Structure" order="1" sideWeight="0.24637681" side_tool="true" weight="0.1971917" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2062212" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.37096775" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.29277107" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3640553" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -254,7 +291,7 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.32881773" />
+      <window_info anchor="bottom" id="Python Console" order="12" weight="0.328341" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -277,7 +314,9 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MiniOS$test_node.coverage" NAME="test-node Coverage Results" MODIFIED="1567638718717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MiniOS$test_node.coverage" NAME="test-node Coverage Results" MODIFIED="1567804831133" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MiniOS$test_jsonf2dict.coverage" NAME="test-jsonf2dict Coverage Results" MODIFIED="1567790077212" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MiniOS$firmware3.coverage" NAME="firmware3 Coverage Results" MODIFIED="1567805418410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -301,16 +340,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/firmware3.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="380">
-          <caret line="94" column="94" selection-start-line="94" selection-start-column="93" selection-end-line="94" selection-end-column="94" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Utkarsh/ucpa-dm/cdmapp/venv/lib/python3.7/site-packages/pexpect/popen_spawn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="196">
@@ -322,13 +351,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="211">
           <caret line="990" selection-start-line="990" selection-end-line="990" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/quantaskylake.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="807" selection-start-line="807" selection-end-line="807" />
         </state>
       </provider>
     </entry>
@@ -346,10 +368,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/firmware.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-159">
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/quantaskylake.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="807" selection-start-line="807" selection-end-line="807" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/any_file.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="22" selection-end-column="741" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test-jsonf2dict">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="32" column="32" lean-forward="true" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="632" lean-forward="true" selection-start-column="632" selection-end-column="632" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/minios.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="290" column="8" selection-start-line="290" selection-start-column="8" selection-end-line="290" selection-end-column="8" />
+        <state relative-caret-position="55">
+          <caret line="745" column="43" lean-forward="true" selection-start-line="745" selection-start-column="43" selection-end-line="745" selection-end-column="43" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -358,10 +417,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test-node">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="100" lean-forward="true" selection-start-line="100" selection-end-line="100" />
+        <state relative-caret-position="-1272">
+          <caret line="101" lean-forward="true" selection-start-line="101" selection-end-line="101" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/firmware3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-7185">
+          <caret line="143" column="86" lean-forward="true" selection-start-line="143" selection-start-column="86" selection-end-line="143" selection-end-column="86" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>

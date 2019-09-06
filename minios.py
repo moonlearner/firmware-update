@@ -278,6 +278,9 @@ class minios(object):
         t = PrettyTable(["PCI_Address", "Name", "Firmware", "Serial", "VID", "DVID", "SVID", "SSID"])
         t.sortby = "PCI_Address"
         for device, pciclass in self.PCIDevices.items():
+            if (pciclass.name.find("LSI_Quanta_Mezz") != -1):
+                pciclass.name = pciclass.name.replace("LSI_Quanta_Mezz", "LSI_QS3216")
+
             print(
                 self.node.host + ' Discovered PCI Device: ' + device + ' ' + pciclass.name + ' v.' + pciclass.firmware)
             # print(pciclass)
@@ -295,7 +298,7 @@ class minios(object):
         output = self.apprun(cmd)
         #output = self.rawcommand(cmd)
 
-        if (filepath.find("LSI_QS3216") == -1):
+        if (filepath.find("Intel") != -1):
             output = output.split('\r\n')[1]
 
         #output = output.splitlines()
@@ -741,7 +744,8 @@ class emulexHBA(HBA):
         HBA.__init__(self, minios_instance, pciloc)
         self.hbacmd = "sudo hbacmd "
         self.elxflash = "sudo elxflash.sh "
-        self.linlpcfg = "sudo linlpcfg.sh "
+        #self.linlpcfg = "sudo linlpcfg.sh "
+        self.linlpcfg = "sudo linlpcfg "
         self.hbacmdlisthbadict = {}
         while self.name is None and self.firmware is None:
             self.getDetails()
@@ -818,7 +822,11 @@ class emulexHBA(HBA):
             if 'Command completed, NO Error' in output:
                 print(self.minios.node.host + ' Successfully Flashed ' + self.name)
                 return True
-        print(self.minios.node.host + ' Failed to Flash ' + self.name + ' \nDebugging output: ' + output)
+        #print(self.minios.node.host + ' Failed to Flash ' + self.name + ' \nDebugging output: ' + output)
+        # Jenny Add 9/6/2019
+        print("Failed to Flash Emulex Card")
+        print(output)
+
         return False
 
     def blinkLED(self, WWN, switch = True):
@@ -1246,6 +1254,9 @@ class LSISAS3Controller(SASController):
 
         # Attempt to store the name and the firmware
         self.name = "LSI_" + self.detailsDict.get("Product Name", "").replace(" ", "_")
+        # Jenny Add this code on 9/5/2019
+        if (self.name.find("LSI_Quanta_Mezz") != -1):
+            self.name = self.name.replace("LSI_Quanta_Mezz", "LSI_QS3216")
         self.firmware = self.detailsDict.get("FW Version", "")
 
         # Attempt to get the serial number
