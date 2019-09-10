@@ -294,7 +294,7 @@ class minios(object):
     def discoverNewestFile(self, filepath):
         print(self.node.host + ' Discovering Newest Firmware File ' + filepath)
         # Get the latest file ina folder
-        cmd = 'ls -tc ' + filepath + ' | tail -1'
+        cmd = 'ls -tc ' + filepath + ' | head -1'
         output = self.apprun(cmd)
         #output = self.rawcommand(cmd)
 

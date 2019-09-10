@@ -8,45 +8,11 @@ import concurrent.futures
 import quantaskylake
 import json
 import minios
+import time
 
 class firmware(object):
 
-    def __init__(self, host, username, password):
-        self.host = host
-
-        # Some applications do not work via IPv6 Link Local. Adding ipv6linklocal instance
-        self.hostforwardinstance = None
-
-        self.username = username
-        self.password = password
-        self.redfishapi = 'https://[' + host.replace('%','%25') + ']/redfish/v1/'
-        self.redfishheader = {
-                                'Content-Type': 'application/json',
-                                'User-Agent': 'curl/7.54.0',
-                                'Host': '[' + host.split('%')[0] + ']'
-                            }
-        self.amiheader = {}
-        self.amiloggedin = False
-        self.preserveconfig = True
-        self.cookie = None
-        self.token = None
-        self.BMCVersion = None
-        self.BIOSVersion = None
-        self.BIOSJSONCache = None
-        self.ManagersJSONCache = None
-        self.SystemsJSONCache = None
-        self.IPMIPre = 'ipmitool -I lanplus -H ' + host + ' -U ' + username + ' -P ' + password + ' '
-        self.ipv4Address = None
-        self.ipv4Subnet = None
-        self.ipv4Gateway = None
-        self.ipv4Src = None
-        self.mgmtMAC = None
-        self.lastButtonTime = None
-        self.SOLSession = None
-        self.VMCLISession = None
-        # Fill UP JSON Cache
-        #self.getJSONs()
-
+    def __init__(self):
         self.firmwaredictionary = {
             ("D52B", "DS120", "DS220"): {
                 "2017-09-08": {
@@ -58,7 +24,192 @@ class firmware(object):
                     "BMC": {"Version": "3.74.06", "File": "s5bxv3.74.06_rom.ima_enc"},
                     "BIOS": {"Version": "3A10.H3", "File": "3A10.H3.BIN"},
                     "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed"}
+                },
+                "2018-02-14": {
+                    "BMC": {"Version": "3.75.06", "File": "s5bxv3.75.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H3", "File": "3A10.H3.BIN"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed"}
+                },
+                "2018-06-19": {
+                    "BMC": {"Version": "4.22.06", "File": "s5bxv4.22.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H3", "File": "3A10.H3.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-07-13": {
+                    "BMC" : {"Version": "4.23.06", "File": "s5bxv4.23.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H7", "File": "3A10.H7.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-08-19": {
+                    "BMC": {"Version": "4.23.06", "File": "s5bxv4.23.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-08-20": {
+                    "BMC": {"Version": "4.24.06", "File": "s5bxv4.24.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-10-18": {
+                    "BMC": {"Version": "4.26.06", "File": "s5bxv4.26.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-12-04": {
+                    "BMC": {"Version": "4.27.06", "File": "s5bxv4.27.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H7", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2019-02-03": {
+                    "BMC": {"Version": "4.27.06", "File": "s5bxv4.27.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3B10.T01", "File": "3B10.T01.BIN_enc"},
+                    #"BIOS": {"Version": "S5BH3B10", "File": "S5BH3B10.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2019-05-28": {
+                    "BMC": {"Version": "4.60.06", "File": "s5bxv4.60.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B13.H01", "File": "S5BH3B13.H01.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
+                },
+                "2019-06-25": {
+                    "BMC": {"Version": "4.61.06", "File": "s5bxv4.61.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B14.T00", "File": "S5BH3B14.T00.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
+                },
+                "2019-07-26": {
+                    "BMC": {"Version": "4.62.06", "File": "s5bxv4.62.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B14.H01", "File": "S5BH3B14.H01.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
                 }
+            },
+            ("D52BV", "DS225"): {
+                "2018-07-30": {
+                    "BMC" : {"Version": "4.23.06", "File": "s5bxv4.23.06_rom.ima_enc"},
+                    "BIOS" : {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-08-19": {
+                    "BMC": {"Version": "4.24.06", "File": "s5bxv4.23.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-08-20": {
+                    "BMC": {"Version": "4.24.06", "File": "s5bxv4.24.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2018-10-18": {
+                    "BMC": {"Version": "4.26.06", "File": "s5bxv4.26.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A10.H8", "File": "3A10.H8.BIN_enc"},
+                    "CPLD": {"Version": "REV10", "File": "S5B_MB_CPLD_REV10.jed_enc"}
+                },
+                "2019-05-06": {
+                    "BMC": {"Version": "4.57.06", "File": "s5bxv4.57.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B13.H0", "File": "S5BH3B13.H00.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
+                },
+                "2019-05-28": {
+                    "BMC": {"Version": "4.60.06", "File": "s5bxv4.60.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B13.H01", "File": "S5BH3B13.H01.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
+                },
+                "2019-07-26": {
+                    "BMC": {"Version": "4.62.06", "File": "s5bxv4.62.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B14.H01", "File": "S5BH3B14.H01.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
+                }
+            },
+            ("Q72D", "DS240") : {
+                "2018-05-11": {
+                    "BMC": {"Version": "3.88.06", "File": "s7dhxv3.88.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A01.H3", "File": "3A01.H3.BIN"},
+                },
+                "2018-06-19": {
+                    "BMC": {"Version": "4.22.06", "File": "s7dhxv4.22.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A01.H3", "File": "3A01.H3.BIN_enc"},
+                },
+                "2018-07-13": {
+                    "BMC": {"Version": "4.23.06", "File": "s7dhxv4.23.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A02.H1", "File": "3A02.H1.BIN_enc"}
+                },
+                "2018-08-20": {
+                    "BMC": {"Version": "4.23.06", "File": "s7dhxv4.23.06_rom.ima_enc"},
+                    "BIOS": {"Version": "3A02.H2", "File": "3A02.H2.BIN_enc"}
+                },
+                "2019-05-06": {
+                    "BMC": {"Version": "4.57.06", "File": "s5bxv4.57.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B13.H0", "File": "S5BH3B13.H00.BIN_enc"}
+                },
+                "2019-05-28": {
+                    "BMC": {"Version": "4.60.06", "File": "s5bxv4.60.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S7DH3B13.H01", "File": "S7DH3B13.H01.BIN_enc"}
+                },
+                "2019-07-26": {
+                    "BMC": {"Version": "4.62.06", "File": "s5bxv4.62.06_rom.ima_enc"},
+                    "BIOS": {"Version": "S5BH3B14.H01", "File": "S5BH3B14.H01.BIN_enc"},
+                    "CPLD": {"Version": "REV11", "File": "S5B_MB_CPLD_REV11.jed_enc"}
+                }
+            },
+            ("AVAGO_MegaRAID_SAS_9460-16i"): {
+                "2017-12-17": {"Version": "5.040.00-1123", "File": "50.4.0-0919_9460-16i_SAS_MR_FW_IMAGE.zip"},
+                "2018-05-31": {"Version": "5.060.00-1455", "File": "50.6.0-1375_9460-16i_SAS_MR_FW_IMAGE.zip"}
+            },
+            ("AVAGO_MegaRAID_SAS_PCI_Express_ROMB-QS-3516B"): {
+                "2017-09-14": {"Version": "5.020.00-0910", "File": "QS3516-16i_FW_Online_8B00_5.020.00-0910"},
+                "2018-01-11": {"Version": "5.040.00-1123",
+                               "File": "QS-3516B-16i-R6-PD32-2G_FW-Online_5.040.00-1123.zip"},
+                "2018-02-28": {"Version": "5.050.00-1304",
+                               "File": "QS-3516B-16i-R6-PD32-4G_FW-Online_5.050.00-1304.zip"}
+            },
+            ("Emulex_LPe31002-M6", "Emulex_LPe32002-M2"): {
+                "2016-10-14": {"Version": "11.1.212.0", "File": "lancerg6_A11.1.212.0.grp"},
+                "2017-03-13": {"Version": "11.2.156.27", "File": "lancerg6_A11.2.156.27.grp"},
+                "2017-09-08": {"Version": "11.4.142.23", "File": "lancerg6_A11.4.142.23.grp"},
+                "2018-02-06": {"Version": "11.4.204.25", "File": "lancerg6_A11.4.204.25.grp"},
+                "2018-07-05": {"Version": "12.0.193.13", "File": "lancerg6_A12.0.193.13.grp"},
+            },
+            ("Intel(R)_Ethernet_Connection_X722_for_10GbE_SFP+"): {
+                "2018-02-23": {"Version": "3.45",
+                               "File": "ON 10GbE X722-X527-DA4 SFP plus_FW-Online-Auto_Linux_0004.zip"},
+                "2018-12-20": {"Version": "4.00", "File": "2018_WW46_LBG_X722_NUP_UEFI_v0006.zip"}
+            },
+            ("Intel(R)_Ethernet_Network_Adapter_XXV710-2"): {
+                "2017-11-30": {"Version": "6.01", "File": "XL710_NVMUpdatePackage_v6_01_Linux.tar.gz"},
+                "2019-03-18": {"Version": "6.80", "File": "XL710_NVMUpdatePackage_v6_80_Linux.tar.gz"},
+            },
+            ("LSI_SAS9305-16i"): {
+                "2017-05-03": {"Version": "15.00.00.00", "File": "9305_16i_Package_P15.zip"}
+            },
+            ("LSI_QS3216"): {
+                "2017-06-14": {"Version": "15.00.00.00", "File": "Qfw_1A14.zip"},
+                "2017-08-18": {"Version": "15.00.02.00", "File": "Qfw_1A17.zip"},
+                "2019-05-30": {"Version": "15.00.00.00_0530", "File": "Qfw_1A14_0530.zip"}
+            },
+            ("MCX4121A-ACA_Ax"): {
+                "2017-03-17": {"Version": "14.18.2000",
+                               "File": "fw-ConnectX4Lx-rel-14_18_2000-MCX4121A-ACA_Ax-FlexBoot-3.5.110.bin.zip"},
+                "2017-06-29": {"Version": "14.20.1010",
+                               "File": "fw-ConnectX4Lx-rel-14_20_1010-MCX4121A-ACA_Ax-FlexBoot-3.5.210.bin.zip"},
+                "2017-12-04": {"Version": "14.21.2010",
+                               "File": "fw-ConnectX4Lx-rel-14_21_2010-MCX4121A-ACA_Ax-FlexBoot-3.5.305.bin.zip"},
+                "2018-03-01": {"Version": "14.22.1002",
+                               "File": "fw-ConnectX4Lx-rel-14_22_1002-MCX4121A-ACA_Ax-UEFI-14.15.19-FlexBoot-3.5.403.bin.zip"},
+                "2018-07-12": {"Version": "14.23.1020",
+                               "File": "fw-ConnectX4Lx-rel-14_23_1020-MCX4121A-ACA_Ax-UEFI-14.16.17-FlexBoot-3.5.504.bin.zip"},
+                "2018-12-02": {"Version": "14.24.1000",
+                               "File": "fw-ConnectX4Lx-rel-14_24_1000-MCX4121A-ACA_Ax-UEFI-14.17.11-FlexBoot-3.5.603.bin.zip"}
+            },
+            ("Quanta_S5B_CX4Lx_25G_2P"): {
+                "2017-04-07": {"Version": "14.18.1000", "File": "3GS5BMA0000_MLX_25G_dual_port_14_18_1000_Online.zip"},
+                "2018-02-03": {"Version": "14.20.1010", "File": "3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip"},
+                "2019-05-31": {"Version": "14.23.1020",
+                               "File": "3GS5BMA0000_MLX_25G_dual_port_Online_Auto_Linux_14.23.1020.zip"}
+            },
+            ("MCX516A-CCA_Ax"): {
+                "2018-07-13": {"Version": "14.23.1020",
+                               "File": "fw-ConnectX5-rel-16_23_1020-MCX516A-CCA_Ax-UEFI-14.16.17-FlexBoot-3.5.504.bin.zip"},
+                "2018-12-02": {"Version": "14.24.1000",
+                               "File": "fw-ConnectX5-rel-16_24_1000-MCX516A-CCA_Ax-UEFI-14.17.11-FlexBoot-3.5.603.bin.zip"}
             }
         }
 
@@ -66,6 +217,15 @@ class firmware(object):
             self.path = '../../Firmware/COMPUTE/'
         else:
             self.path = '..\\..\\Firmware\\COMPUTE\\'
+
+        if 'any_file.json':
+            self.vmwaredictionary = {}
+            # Jenny Add Reading JSON from a File
+            with open('any_file.json', 'r') as json_file:
+                self.vmwaredictionary = json.load(json_file)
+                for p in self.vmwaredictionary.items():
+                    print(p)
+                    print('')
 
     def printfirmwareselection(self, name):
             print('Firmware Selection for ' + str(name) + ':')
@@ -75,6 +235,42 @@ class firmware(object):
                 if name in device:
                     print(json.dumps(data, indent=4))
             return None
+
+    def printesxiselection(self, inputdata=None):
+        if inputdata is not None:
+            for date, data in self.vmwaredictionary.items():
+                if str(inputdata) in date:
+                    print(date)
+                    for item, itemdata in data.items():
+                        if 'Nodes' in item or 'IOCards' in item:
+                            for node, nodedate in itemdata.items():
+                                print(node)
+                                print(json.dumps(self.returnfirmwarefileJSON(node, nodedate), indent=4))
+        else:
+            for date, data in self.vmwaredictionary.items():
+                print(date + ' : vSphere ESXi ' + data.get('ESXI_Version') + ' (' + data.get('ESXI_Build') + ')')
+
+    def returnesxiselection(self, inputdata):
+        for date, data in self.vmwaredictionary.items():
+            if str(inputdata) in date:
+                return data
+        return {}
+
+    # Returns the file details about the device in either date form or version form
+    # Note: Nodes can only be used with date form. Can't force update incorrect BMC/BIOs combo
+    def returnfirmwarefileJSON(self, name, inputdata):
+        for device, data in self.firmwaredictionary.items():
+            if name in device:
+                for datesel, json in data.items():
+                    if inputdata in datesel or inputdata in json.get("Version", ""):
+                        return json
+        raise ValueError("Can't find JSON profile")
+
+    def returnfilepath(self, name):
+        for root, dirs, files in os.walk(self.path):
+            for file in files:
+                if name in file:
+                    return str(os.path.join(root, file))
 
     def spawn(self, command, **kwargs):
         if 'linux' in sys.platform:
@@ -115,7 +311,6 @@ class firmware(object):
             output = session.read(2000)
             output = output.decode('utf-8')
             output = output.replace('\n', '')
-            print(self.host + ' ' + output)
 
     def forcePasswordChange(self):
         # Get QSESSIONID and X-CSRFTOKEN to log into AMI API
@@ -128,6 +323,7 @@ class firmware(object):
             try:
                 j = session.json()
             except:
+                print(self.host + ' ' + output)
                 print(self.host + " Failed to Force Change Password")
                 return False
             # print(j)
@@ -220,10 +416,10 @@ class firmware(object):
                                    # data='{"Attributes":{"FBO001":"LEGACY","FBO101":"CD/DVD","FBO102":"USB","FBO103":"Hard Disk","FBO104":"Network"}}')\
         
                                    data='{"Attributes":{"FBO001":"UEFI","FBO201":"CD/DVD","FBO202":"USB","FBO203":"Hard Disk","FBO204":"Network","CRCS005":"Enable","IIOS1FE":"Enable", "IPMI100":"Disabled"}}')
-            if session.status_code == 204:
+            if session.status_code == 200:
                 print(self.host + ' ' + 'Successfully set MiniOS BIOS Settings')
             else:
-                print(self.host + ' ' + 'Failed to set MiniOS BIOS Settings')
+                print(self.host + ' ' + 'Hooray Failed to set MiniOS BIOS Settings')
 
         except:
             pass
@@ -253,136 +449,50 @@ class firmware(object):
 
 
 
-    # nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe1c:4e26%11', 'admin', 'cmb9.admin')]
-    # # Start MiniOS Logic
-    # badtime.seperate()
-    # print("\nStarting PCI Device Firmware Flashing\n")
-    # 
-    # print("Setting MiniOS BIOS Default")
-    # processes = []
-    # for node in nodes:
-    #     processes.append(multiprocessing.Process(target=node.setMiniOSDefaults))
-    # 
-    # # Start threads
-    # for process in processes:
-    #     process.start()
-    #     # Slowly power-on nodes to not overload circuit
-    #     time.sleep(2)
-    # 
-    # # Wait for threads
-    # for process in processes:
-    #     process.join()
-    # 
-    # print("\nCreating MiniOS Instances")
-    # minioses = []
-    # for node in nodes:
-    #     minioses.append(minios.minios(node))
-    # 
-    # print("\nAttempting to login into all MiniOS Instances")
-    # for minios_instance in minioses:
-    #     minios_instance.login()
-    # 
-    # time.sleep(30)
-    # 
-    # print("\nDiscovering All PCI Devices in all MiniOS instance")
-    # temp_minioses = []
-    # with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
-    #     futures = [executor.submit(miniospcidiscoverwrapper, minios_instance) for minios_instance in minioses]
-    #     for future in concurrent.futures.as_completed(futures):
-    #         temp_minioses.append(future.result())
-    # minioses = temp_minioses
-    # 
-    # for minios_instance in minioses:
-    #     minios_instance.printPCIDeices()
-    # 
-    # 
-    # print("\nFlashing All PCI Deivce in all MiniOS Instances")
-    # temp_minioses = []
-    # with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
-    #     futures = [executor.submit(pciflashing, minios_instance, firmware, firmwareselection) for minios_instance in minioses]
-    #     for future in concurrent.futures.as_completed(futures):
-    #         try:
-    #             temp_minioses.append(future.result())
-    #         except:
-    #             continue
-    # minioses = temp_minioses
-    # 
-    # input("Hit enter to continue")
-    # 
-    # # Power off the nodes
-    # for node in nodes:
-    #     node.poweroff()
-    # 
-    # if preserveconfig is True:
-    #     badtime.seperate()
-    #     print("Starting BIOS Restore\n")
-    #     for node in nodes:
-    #         # Double check if the node has BIOS Version. If not, wait until node is powered on to get versions.
-    #         count = 0
-    #         print(node.host + ' Sarting BIOIS Restore ')
-    #         while count < 15:
-    #             data = node.getSystemsJSON()
-    #             count = count + 1
-    #             try:
-    #                 biosversion = data['BiosVersion']
-    #             except:
-    #                 print(node.host + ' Missing BiosVersion. Checking again in a minute.')
-    #                 time.sleep(60)
-    #                 continue
-    # 
-    #             if len(biosversion) < 1:
-    #                 print(node.host + ' BiosVersion is still blank. Checking again in a minute. ')
-    #                 time.sleep(60)
-    #                 continue
-    #             else:
-    #                 node.poweroff(0)
-    #                 break
-    # 
-    # if count > 14:
-    #     print(node.host + ' WARNING!!! THIS NODE ISN\'T RESPONSING!!! HELP!!! (Also skipping this node.)'
-    # 
-    # # Compare BIOS JSON Cache Attributes with Registries Attributes and create new JSON out of existing keys in new BIOS Firmware Registries
-    # # Get BIOS JSON Registries
-    #     data = node.getBIOSJSONRegistries()
-    #     newBIOSJSON = {'Attributes': {}}
-    #     for key in data.get('RegistryEntries').get('Attributes'):
-    #         if key['AttributeName'] in node.BIOSJSONCache['Attributes']:
-    #             # D52B BMC 3.16.06 has bad default key ISCS003. Ignore it
-    #             # Q72D BMC 3.85.06 can't update GSIO keys for some reason. IDK why.
-    #             # D52B/Q72D BMC 4.23.06 can not update OEMSECBOOTMODE key. Read-only keys.
-    #             # If key is blank in key, do not add it.
-    #     if 'ISCS003' in key['AttributeName'] or \
-    #             '  ' in str(node.BIOSJSONCache['Attributes'][key['AttributeName']]) or \
-    #             len(str(node.BIOSJSONCache['Attributes'][key['AttributeName']])) < 1 or \
-    #             'GSIO' in key['AttributeName'] or \
-    #             'OEMSECBOOTMODE' in key['AttributeName'] or \
-    #             'OEMSECBOOT' in key['AttributeName']:
-    #         continue
-    #     else:
-    #         newBIOSJSON['Attributes'].update({key['AttributeName']: node.BIOSJSONCache['Attributes'][key['AttributeName']]})
-    # 
-    # 
-    # print(node.host + ' Restoring the following BIOS settings ' + str(newBIOSJSON))
-    # node.restoreBIOSJSON(newBIOSJSON)
-    # 
-    # print('\n All Done. :D\n\n')
-    # badtime.okay()
-    # 
-
 def main():
     preserveconfig = True
+    # Ask the user how many nodes that rack has
+    #nodesnum = helper.askNodeQuantity()
+    nodesnum = 10
 
-    # # Get the existing nodes
-    # if preserveconfig is True:
-    #     # Discover with existing details
-    #     nodes = autodiscover.discover(nodesnum, [username], [password])
-    # else:
-    #     # Discover with default details
-    #     nodes = autodiscover.discover(nodesnum)
+    if preserveconfig is True:
+        while True:
+            # Ask for the username and password of BMC
+            username = input('What is the username of the BMC? ')
+            if username != 'admin':
+                print(
+                    "This toolkit only supports \"admin\" account for restoration. If another account is used, please manually create the account. Exiting.")
+                return False
 
-    nodes = ['fe80::dac4:97ff:fe17:6e7c%ens160']
-    r = firmware('fe80::dac4:97ff:fe17:6e7c%ens160', 'admin', 'cmb9.admin')
-    r.printfirmwareselection("DS120")
+            password = input('What is the password of the BMC? ')
+
+            print('You have entered ' + str(username) + ' and ' + str(password) + ' ')
+            response = input('Is this correct? (Enter y for yes or n for no): ')
+            if 'y' in response:
+                print('Perfect! Let\'s move on.')
+                break
+            else:
+                print('Re-asking questions.')
+
+
+    # Get the existing nodes
+    #if preserveconfig is True:
+    #    # Discover with existing details
+    #    nodes = autodiscover.discover(nodesnum, [username], [password])
+    #else:
+    #    # Discover with default details
+    #    nodes = autodiscover.discover(nodesnum)
+
+    nodes = [quantaskylake.DS120('10.76.38.85', 'admin', 'cmb9.admin')]
+    #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c%ens160', 'admin', 'cmb9.admin')]
+    #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c', 'admin', 'cmb9.admin')]
+
+    #nodes = ['fe80::dac4:97ff:fe17:6e7c%ens160']
+    #r = firmware('fe80::dac4:97ff:fe17:6e7c%ens160', 'admin', 'cmb9.admin')
+    #r.printfirmwareselection("DS120")
+    # Start the firmware object
+    f = firmware()
+
     # Start MiniOS Logic
     badtime.seperate()
     print("\nStarting PCI Device Firmware Flashing\n")
@@ -390,7 +500,7 @@ def main():
     print('Setting MiniOS BIOS Default')
     processes = []
     for node in nodes:
-        processes.append(multiprocessing.Process(target=r.setMiniOSDefaults()))
+        processes.append(multiprocessing.Process(target=node.setMiniOSDefaults2()))
     # Start threads
     for process in processes:
         process.start()
@@ -399,10 +509,13 @@ def main():
     for process in processes:
         process.join()
 
+    #vmcli_nodes = copy.deepcopy(nodes)
+    #vmcli_nodes = helper.massStartVMCLI(vmcli_nodes, minios.getminiosiso())
+
     print('Powering on the nodes to start MiniOS')
     processes = []
     for node in nodes:
-        processes.append(multiprocessing.Process(target=r.poweron))
+        processes.append(multiprocessing.Process(target=node.poweron))
     # Start threads
     for process in processes:
         process.start()
@@ -422,6 +535,69 @@ def main():
         minios_instance.login()
 
     time.sleep(30)
+
+    print(" Jenny, I am here now")
+
+    print("\nDiscovering All PCI Devices in all MiniOS Instances")
+    temp_minioses = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
+        futures = [executor.submit(miniospcidiscoverwrapper, minios_instance) for minios_instance in minioses]
+        for future in concurrent.futures.as_completed(futures):
+            temp_minioses.append(future.result())
+    minioses = temp_minioses
+
+    for minios_instance in minioses:
+        minios_instance.printPCIDevices()
+
+    # Ask the user which vSphere version so we can flash the DS120/220 with appropriate firmware.
+    while True:
+        print('\nWhich appliance are you going to install? (Note: Entering UCP is the default option)\n')
+        f.printesxiselection()
+        date = input('Enter the date and/or version (if any): ')
+        if len(f.returnesxiselection(date)) < 1:
+            print('I couldn\'t find this selection. Please try again.')
+        else:
+            print('\nThis selection has the following firmwares:')
+            f.printesxiselection(date)
+            firmwareselection = f.returnesxiselection(date)
+            print(firmwareselection)
+            break
+
+    print("\nFlashing All PCI Devices in all MiniOS Instances")
+    temp_minioses = []
+    with concurrent.futures.ThreadPoolExecutor(max_workers=32) as executor:
+        futures = [executor.submit(pciflashing, minios_instance, f, firmwareselection) for minios_instance in
+                   minioses]
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                temp_minioses.append(future.result())
+            except:
+                continue
+    minioses = temp_minioses
+
+    input("Hit enter to continue")
+
+    # Power off the nodes
+    for node in nodes:
+        node.poweroff()
+
+def miniospcidiscoverwrapper(minios_instance):
+    minios_instance.discoverPCIDevices()
+    return minios_instance
+
+def pciflashing(minios_instance, firmware_class, firmware_selection):
+    for pciloc, device in minios_instance.PCIDevices.items():
+        date = firmware_selection.get("IOCards").get(device.name, None)
+        if date is None:
+            print(
+                minios_instance.node.host + " " + device.name + " isn\'t compatible with this firmware selection or firmware doesn\'t exist.")
+            continue
+        filejson = firmware_class.returnfirmwarefileJSON(device.name, date)
+        # This path is relative to the MiniOS
+        filepath = "/cdrom/firmware/" + device.name + "/" + filejson.get("File")
+        print(minios_instance.node.host + ' Flashing ' + device.name + ' on ' + pciloc + ' with ' + filepath)
+        device.flash(filepath)
+    return minios_instance
 
 if __name__ == '__main__':
     '''

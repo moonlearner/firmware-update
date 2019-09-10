@@ -4,12 +4,13 @@ from prettytable import PrettyTable
 import os
 
 
-node = quantaskylake.D52B('10.76.38.71', 'admin', 'cmb9.admin')
+node = quantaskylake.D52B('10.76.38.85', 'admin', 'cmb9.admin')
 test = minios.minios(node)
 #tset = minios(node) # if this is used, there is an error that module is not callable
 test.login()
 test.discoverPCIDevices()
 founddevices = test.printPCIDevices()
+
 '''
 #print("=================Starting to Upgrade==========================")
 #pcitest = minios.intelNIC(test, '3d:00')
@@ -36,6 +37,8 @@ for device2, pciclass2 in founddevices.items():
 
     if (filepath.find("LSI_Quanta_Mezz")  != -1):
         filepath = filepath.replace("LSI_Quanta_Mezz", "LSI_QS3216")
+    elif (filepath.find("X722_for_10GBASE-T")  != -1):
+        filepath = filepath.replace("X722_for_10GBASE-T", "X722_for_10GbE_SFP+")
 
     filename = test.discoverNewestFile(filepath)
     print("=======filename: ", filename)

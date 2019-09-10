@@ -248,10 +248,10 @@ class firmware(object):
         else:
             self.path = '..\\..\\Firmware\\COMPUTE\\'
 
-        if 'data.txt':
+        if 'any_file.json':
             self.vmwaredictionary = {}
             # Jenny Add Reading JSON from a File
-            with open('data.txt', 'r') as json_file:
+            with open('any_file.json', 'r') as json_file:
                 self.vmwaredictionary = json.load(json_file)
                 for p in self.vmwaredictionary.items():
                     print(p)
@@ -484,15 +484,6 @@ def main():
     # Ask the user how many nodes that rack has
     #nodesnum = helper.askNodeQuantity()
     nodesnum = 10
-
-    # if 'data.txt':
-    #     vmwaredictionary = {}
-    #     # Jenny Add Reading JSON from a File
-    #     with open('data.txt', 'r') as json_file:
-    #         vmwaredictionary = json.load(json_file)
-    #         for p in vmwaredictionary.items():
-    #             print(p)
-    #             print('')
 
     if preserveconfig is True:
         while True:
