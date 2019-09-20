@@ -4,7 +4,7 @@ from prettytable import PrettyTable
 import os
 
 
-node = quantaskylake.D52B('10.76.38.85', 'admin', 'cmb9.admin')
+node = quantaskylake.D52B('10.76.38.52', 'admin', 'cmb9.admin')
 test = minios.minios(node)
 #tset = minios(node) # if this is used, there is an error that module is not callable
 test.login()
@@ -49,8 +49,8 @@ for device2, pciclass2 in founddevices.items():
     fullfilepath = filepath + filename
     fullfilepath = fullfilepath.rstrip()    # strip out all tailing whitespace
     print("This line has the value = ", line)
-    if 'Ethernet' in line or 'Quanta' in line:
-        if 'Mellanox' in line or 'Quanta' in line:
+    if 'Ethernet' in line or 'Quanta' in line or 'MCX' in line:
+        if 'Mellanox' in line or 'Quanta' in line or 'MCX' in line:
             print(node.host + ' ******Found a Mellanox Ethernet Card******', device2)
             print("The fullfilepath ===", fullfilepath)
             melltext = minios.mellanoxNIC(test, device2)

@@ -5,6 +5,7 @@ import collections
 import json
 import glob
 import os
+import subprocess
 
 def getminiosiso():
     return "minios_20190409.iso"
@@ -135,6 +136,11 @@ class minios(object):
             pass
         return output
 
+    def apprun2(self, cmd):
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        tmp = proc.stdout.read()
+        print(tmp)
+
     def getlshw(self):
         output = self.apprun('sudo lshw', 15)
         temp_dict = self.list2dictionary(output)
@@ -176,7 +182,7 @@ class minios(object):
                 self.updatedict(a[key], b[key])
 
     def discoverPCIDevices(self):
-        print(self.node.host + 'Jenny Discovering PCI Devices')
+        print(self.node.host + ' Jenny Discovering PCI Devices')
         cmdprep = 'sudo lspci -mm | grep --color=never '
         for pcitype in self.PCITypes:
             cmd = cmdprep + "\"" + pcitype + "\""
@@ -262,6 +268,89 @@ class minios(object):
         '''
         return self.PCIDevices.keys()
 
+    # Jenny Modified on 9/19/2019
+    def discoverPCIDevices2(self):
+        print(self.node.host + 'Jenny Discovering PCI Devices')
+        cmdprep = 'sudo lspci -mm | grep --color=never '
+        for pcitype in self.PCITypes:
+            cmd = cmdprep + "\"" + pcitype + "\""
+            print("Jenny add cmd print: ", cmd)
+            output = os.system(cmd)
+            output = output.splitlines()
+
+            # Get list of available PCI Locations
+            busdevlist = []
+            for line in output:
+                try:
+                    busdevID = line.split()[0].split('.')[0]
+                    busdevlist.append(busdevID)
+                except:
+                    pass
+
+            # Remove duplicate entries
+            busdevlist = list(set(busdevlist))
+
+            # Get details about the device (only one, ignore function device)
+            busdevdetails = []
+            for item in busdevlist:
+                for line in output:
+                    if item in line:
+                        busdevdetails.append(line)
+                        break
+
+            # Initialize the PCI Devices
+            for line in busdevdetails:
+                busdevID = line.split()[0].split('.')[0]
+                if 'Ethernet' in line:
+                    if 'Mellanox' in line:
+                        print(self.node.host + ' Found a Mellanox Ethernet Card')
+                        self.PCIDevices.update({busdevID: mellanoxNIC(self, busdevID)})
+                    # For some reason, there is a dummy device within the Intel NICs that has DID 37cc. Ignoring it.
+                    elif 'Intel' in line and '37cc' not in line:
+                        print(self.node.host + ' Found a Intel Ethernet Card')
+                        self.PCIDevices.update({busdevID: intelNIC(self, busdevID)})
+                elif 'Fibre' in line:
+                    if 'Emulex' in line:
+                        print(self.node.host + ' Found a Emulex HBA')
+                        self.PCIDevices.update({busdevID: emulexHBA(self, busdevID)})
+                elif 'Serial Attached SCSI' in line:
+                    if 'LSI' in line:
+                        print(self.node.host + ' Found a LSI SAS Card')
+                        self.PCIDevices.update({busdevID: LSISAS3Controller(self, busdevID)})
+                elif 'RAID' in line:
+                    if 'LSI' in line:
+                        print(self.node.host + ' Found a LSI RAID Card')
+                        self.PCIDevices.update({busdevID: AVAGORAIDController(self, busdevID)})
+                elif 'VGA compatible controller' in line or '3D controller' in line:
+                    if 'NVIDIA' in line:
+                        print(self.node.host + ' Found a NVIDIA GPU')
+                        self.PCIDevices.update({busdevID: NVIDIAGPUController(self, busdevID)})
+                elif 'Non-Volatile memory controller' in line:
+                    if 'Intel' in line:
+                        print(self.node.host + ' Found a Intel NVMe Device')
+                        self.PCIDevices.update({busdevID: IntelNVMeDevice(self, busdevID)})
+
+        '''
+        # Remove devices with the same Serial Number
+        temp_PCIDevices = {}
+        for key, value in self.PCIDevices.items():
+            if "N/A" in value.serial:
+                temp_PCIDevices.update({key:value})
+                continue
+            else:
+                existed = False
+                for tempkey, tempvalue in temp_PCIDevices.items():
+                    if value.serial == tempvalue.serial:
+                        existed = True
+                if existed:
+                    continue
+                else:
+                    temp_PCIDevices.update({key:value})
+        self.PCIDevices = temp_PCIDevices
+        '''
+        return self.PCIDevices.keys()
+
+
     def printPCIDevices(self):
         print(self.node.host + " Discovered the following PCI Devices:")
         t = PrettyTable(["PCI_Address", "Name", "Firmware", "Serial", "VID", "DVID", "SVID", "SSID"])
@@ -294,7 +383,9 @@ class minios(object):
     def discoverNewestFile(self, filepath):
         print(self.node.host + ' Discovering Newest Firmware File ' + filepath)
         # Get the latest file ina folder
-        cmd = 'ls -tc ' + filepath + ' | head -1'
+        #cmd = 'ls -tc ' + filepath + ' | head -1'
+        cmd = 'ls ' + filepath + ' | sort -r | head -n1'
+        print("The cmd is: " + cmd)
         output = self.apprun(cmd)
         #output = self.rawcommand(cmd)
 

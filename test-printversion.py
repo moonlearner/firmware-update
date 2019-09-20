@@ -9,6 +9,7 @@ import quantaskylake
 import json
 import minios
 import time
+import os
 
 class firmware(object):
 
@@ -78,7 +79,21 @@ class firmware(object):
             ("Quanta_S5B_CX4Lx_25G_2P"): {
                 "2017-04-07": {"Version": "14.18.1000", "File": "3GS5BMA0000_MLX_25G_dual_port_14_18_1000_Online.zip"},
                 "2018-02-03": {"Version": "14.20.1010", "File": "3GS5BMA0000_MLX_25G_dual_port_14_20_1010_Online.zip"}
-            }
+            },
+            ("MCX4121A-ACA_Ax"): {
+                                     "2017-03-17": {"Version": "14.18.2000",
+                                                    "File": "fw-ConnectX4Lx-rel-14_18_2000-MCX4121A-ACA_Ax-FlexBoot-3.5.110.bin.zip"},
+                                     "2017-06-29": {"Version": "14.20.1010",
+                                                    "File": "fw-ConnectX4Lx-rel-14_20_1010-MCX4121A-ACA_Ax-FlexBoot-3.5.210.bin.zip"},
+                                     "2017-12-04": {"Version": "14.21.2010",
+                                                    "File": "fw-ConnectX4Lx-rel-14_21_2010-MCX4121A-ACA_Ax-FlexBoot-3.5.305.bin.zip"},
+                                     "2018-03-01": {"Version": "14.22.1002",
+                                                    "File": "fw-ConnectX4Lx-rel-14_22_1002-MCX4121A-ACA_Ax-UEFI-14.15.19-FlexBoot-3.5.403.bin.zip"},
+                                     "2018-07-12": {"Version": "14.23.1020",
+                                                    "File": "fw-ConnectX4Lx-rel-14_23_1020-MCX4121A-ACA_Ax-UEFI-14.16.17-FlexBoot-3.5.504.bin.zip"},
+                                     "2018-12-02": {"Version": "14.24.1000",
+                                                    "File": "fw-ConnectX4Lx-rel-14_24_1000-MCX4121A-ACA_Ax-UEFI-14.17.11-FlexBoot-3.5.603.bin.zip"}
+                                 },
 
         }
 
@@ -87,13 +102,13 @@ class firmware(object):
                 "ESXI_Version": "6.5U2/6.7U1",
                 "ESXI_Build": "10390116/10302608",
                 "Nodes": {
-                    "D52B": "2019-04-25",
+                    #"D52B": "2019-04-25",
                     "DS120": "2019-04-25",
                     "DS220": "2018-08-19",
-                    "D52BV": "2018-07-30",
-                    "DS225": "2018-07-30",
-                    "Q72D": "2018-08-20",
-                    "DS240": "2018-08-20"
+                    #"D52BV": "2018-07-30",
+                    #"DS225": "2018-07-30",
+                    #"Q72D": "2018-08-20",
+                    #"DS240": "2018-08-20"
                 },
                 "IOCards": {
                     "AVAGO_MegaRAID_SAS_9460-16i": "2017-12-17",
@@ -147,11 +162,10 @@ class firmware(object):
 
         # Returns the file details about the device in either date form or version form
         # Note: Nodes can only be used with date form. Can't force update incorrect BMC/BIOs combo
-
     def returnfirmwarefileJSON(self, name, inputdata):
-        print("The name is the  ", name)
-        print("The inputdata is the ", inputdata)
-        print("----------------------------------------------")
+        print("The name for node is: ", name)
+        print("The inputdata for nodedate is: ", inputdata)
+        print("============================================")
         for device, data in self.firmwaredictionary.items():
             print("This device is the ", device)
             print("This data is the  ", data)
@@ -382,7 +396,7 @@ def main():
     #    # Discover with default details
     #    nodes = autodiscover.discover(nodesnum)
 
-    nodes = [quantaskylake.DS120('10.76.38.64', 'admin', 'cmb9.admin')]
+    nodes = [quantaskylake.DS120('10.76.38.85', 'admin', 'cmb9.admin')]
     #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c%ens160', 'admin', 'cmb9.admin')]
     #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c', 'admin', 'cmb9.admin')]
 

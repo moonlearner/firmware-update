@@ -9,6 +9,7 @@ import quantaskylake
 import json
 import minios
 import time
+import os
 
 class firmware(object):
 
@@ -259,6 +260,10 @@ class firmware(object):
     # Returns the file details about the device in either date form or version form
     # Note: Nodes can only be used with date form. Can't force update incorrect BMC/BIOs combo
     def returnfirmwarefileJSON(self, name, inputdata):
+        print("The name for node is: ", name)
+        print ("The inputdata for nodedate is: ", inputdata)
+        print ("============================================")
+
         for device, data in self.firmwaredictionary.items():
             if name in device:
                 for datesel, json in data.items():
@@ -483,7 +488,7 @@ def main():
     #    # Discover with default details
     #    nodes = autodiscover.discover(nodesnum)
 
-    nodes = [quantaskylake.DS120('10.76.38.85', 'admin', 'cmb9.admin')]
+    nodes = [quantaskylake.DS120('10.76.38.52', 'admin', 'cmb9.admin')]
     #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c%ens160', 'admin', 'cmb9.admin')]
     #nodes = [quantaskylake.DS120('fe80::dac4:97ff:fe17:6e7c', 'admin', 'cmb9.admin')]
 
